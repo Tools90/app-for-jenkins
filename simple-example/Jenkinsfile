@@ -13,6 +13,11 @@ pipeline {
 	APP_DIR = 'simple-example'
 
   }
+  
+	tools {
+			maven 'mvn'
+			jdk 'jdk-13.0.2'
+	}
   stages {
     stage("Prepare container") {
       agent {
@@ -22,13 +27,6 @@ pipeline {
         }
       }
       stages {
-	  
-		stage('Hello') {
-            steps {
-                echo 'Hello World'
-            }
-        }
-		
         stage('Build') {
           steps {
             sh "mvn -f ${APP_DIR}/pom.xml clean install"
