@@ -16,7 +16,6 @@ pipeline {
   
 	tools {
 			maven 'mvn'
-			jdk 'openjdk-14-36'
 	}
   stages {
     stage("Prepare container") {
