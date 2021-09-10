@@ -2,7 +2,6 @@ pipeline {
   agent any
   options {
     skipStagesAfterUnstable()
-    skipDefaultCheckout()
   }
   environment {
     IMAGE_BASE = 'simple-example'
