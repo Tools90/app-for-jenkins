@@ -39,7 +39,7 @@ pipeline {
 		stage('Push images') {
 		  steps {
 			script {
-			  cd ${APP_DIR}
+			  sh '''cd ${app_filler_dir} cd ${APP_DIR}'''
 			  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
 			  docker.withRegistry('localhost:5000', 'docker_registry_local') {
 				dockerImage.push()
