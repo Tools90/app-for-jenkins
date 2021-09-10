@@ -8,7 +8,7 @@ pipeline {
     IMAGE_TAG = "v$BUILD_NUMBER"
     IMAGE_NAME = "${env.IMAGE_BASE}:${env.IMAGE_TAG}"
     IMAGE_NAME_LATEST = "${env.IMAGE_BASE}:latest"
-    DOCKERFILE_NAME = "Dockerfile"
+    DOCKERFILE_NAME = "simple-example/Dockerfile"
 	APP_DIR = 'simple-example'
 
   }
@@ -35,6 +35,26 @@ pipeline {
             sh "mvn -f ${APP_DIR}/pom.xml clean install"
           }
         }
+
+
+		stage('Push images') {
+		  agent any
+		  when {
+			branch 'master'
+		  }
+		  steps {
+			script {
+			  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
+			  docker.withRegistry('localhost:5000', 'docker_registry_local') {
+				dockerImage.push()
+				dockerImage.push("latest")
+			  }
+			  echo "Pushed Docker Image: ${env.IMAGE_NAME}"
+			}
+			sh "docker rmi ${env.IMAGE_NAME} ${env.IMAGE_NAME_LATEST}"
+		  }
+		}
+
 
 
       }
