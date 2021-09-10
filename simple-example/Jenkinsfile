@@ -45,7 +45,7 @@ pipeline {
 			  dir("${APP_DIR}"){
 			  
 				  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
-				  docker.withRegistry('localhost:5000', 'docker_registry_local') {
+				  docker.withRegistry('http://localhost:5000', 'docker_registry_local') {
 					dockerImage.push()
 					dockerImage.push("latest")
 				  }
