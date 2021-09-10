@@ -42,7 +42,7 @@ pipeline {
 			  sh '''cd ${APP_DIR}
 			  ls'''
 			  
-			  dir(${APP_DIR}){
+			  dir("${APP_DIR}"){
 			  
 				  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
 				  docker.withRegistry('localhost:5000', 'docker_registry_local') {
