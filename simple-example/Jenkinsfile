@@ -43,7 +43,7 @@ pipeline {
                 sh '''
                     cd ${APP_DIR}
                     docker image build -t ${env.IMAGE_NAME} .
-                    docker login -u ${cd_registry_cred_USR} -p ${cd_registry_cred_PSW} ${cd_registry_url}
+                    docker login --username ${cd_registry_cred_USR} --password-stdin ${cd_registry_cred_PSW} ${cd_registry_url}
                     docker tag ${env.IMAGE_NAME} ${cd_registry_url}/${env.IMAGE_NAME}
                     docker push ${cd_registry_url}/${env.IMAGE_NAME}
                 '''
