@@ -37,12 +37,9 @@ pipeline {
         }
 
 		stage('Push images') {
-		  steps {
 
-			
-			
-			
-			 steps {
+
+			steps {
                 sh '''
                     cd ${APP_DIR}
                     docker image build -t ${env.IMAGE_NAME} .
@@ -57,15 +54,8 @@ pipeline {
                         docker logout ${cd_registry_url}
                         '''
                     }
-                }
-			
-			
-			
-			
-			
-			
-			
-		  }
+            }
+
 		}
 
 
