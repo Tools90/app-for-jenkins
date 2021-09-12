@@ -38,21 +38,33 @@ pipeline {
 
 		stage('Push images') {
 		  steps {
-			script {
-			  sh '''cd ${APP_DIR}
-			  ls'''
-			  
-			  dir("${APP_DIR}"){
-			  
-				  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
-				  docker.withRegistry('http://192.168.56.1:5000', 'docker_registry_local') {
-					dockerImage.push()
-					dockerImage.push("latest")
-				  }
-			  }
-			  echo "Pushed Docker Image: ${env.IMAGE_NAME}"
-			}
-			sh "docker rmi ${env.IMAGE_NAME} ${env.IMAGE_NAME_LATEST}"
+
+			
+			
+			
+			 steps {
+                sh '''
+                    cd ${APP_DIR}
+                    docker image build -t ${env.IMAGE_NAME} .
+                    docker login -u ${cd_registry_cred_USR} -p ${cd_registry_cred_PSW} ${cd_registry_url}
+                    docker tag ${env.IMAGE_NAME} ${cd_registry_url}/${env.IMAGE_NAME}
+                    docker push ${cd_registry_url}/${env.IMAGE_NAME}
+                '''
+            }
+            post {
+                always {
+                    sh '''
+                        docker logout ${cd_registry_url}
+                        '''
+                    }
+                }
+			
+			
+			
+			
+			
+			
+			
 		  }
 		}
 
