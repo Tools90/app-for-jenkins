@@ -37,31 +37,25 @@ pipeline {
         }
 
 		stage('Push images') {
+			steps {
 
-
-			script {
-			  sh '''cd ${APP_DIR}
-			  ls'''
-			  
-			  dir("${APP_DIR}"){
-			  
-				  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
-				  docker.withRegistry(registry.hub.docker.com, 'docker_registry_dh') {
-					dockerImage.push()
-					dockerImage.push("latest")
+				script {
+				  sh '''cd ${APP_DIR}
+				  ls'''
+				  
+				  dir("${APP_DIR}"){
+				  
+					  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
+					  docker.withRegistry(registry.hub.docker.com, 'docker_registry_dh') {
+						dockerImage.push()
+						dockerImage.push("latest")
+					  }
 				  }
-			  }
-			  echo "Pushed Docker Image: ${env.IMAGE_NAME}"
+				  echo "Pushed Docker Image: ${env.IMAGE_NAME}"
+				}
+				sh "docker rmi ${env.IMAGE_NAME} ${env.IMAGE_NAME_LATEST}"
+				
 			}
-			sh "docker rmi ${env.IMAGE_NAME} ${env.IMAGE_NAME_LATEST}"
-            post {
-                always {
-                    sh '''
-                        docker logout ${cd_registry_url}
-                        '''
-                    }
-            }
-
 		}
 
 
