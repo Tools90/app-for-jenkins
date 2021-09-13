@@ -43,7 +43,7 @@ pipeline {
                 sh '''
                     cd simple-example
 					docker image build -t simple-example:v001 .
-					docker login -u ${dh_registry_cred_USR} -p ${dh_registry_cred_PSW}
+					docker login -u ${dh_registry_cred_USR} -p ${dh_registry_cred_PSW} registry.hub.docker.com
                     docker tag simple-example:v001 ${dh_registry_cred_USR}/simple-example:v001
                     docker push ${dh_registry_cred_USR}/simple-example:v001
                 '''
