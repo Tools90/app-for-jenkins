@@ -39,15 +39,21 @@ pipeline {
 		stage('Push images') {
 
 
-			steps {
-                sh '''
-                    cd simple-example
-					docker image build -t simple-example:v001 .
-					docker login -u ${dh_registry_cred_USR} -p ${dh_registry_cred_PSW} registry.hub.docker.com
-                    docker tag simple-example:v001 ${dh_registry_cred_USR}/simple-example:v001
-                    docker push ${dh_registry_cred_USR}/simple-example:v001
-                '''
-            }
+			script {
+			  sh '''cd ${APP_DIR}
+			  ls'''
+			  
+			  dir("${APP_DIR}"){
+			  
+				  def dockerImage = docker.build("${env.IMAGE_NAME}", "-f ${env.DOCKERFILE_NAME} .")
+				  docker.withRegistry(registry.hub.docker.com, 'docker_registry_dh') {
+					dockerImage.push()
+					dockerImage.push("latest")
+				  }
+			  }
+			  echo "Pushed Docker Image: ${env.IMAGE_NAME}"
+			}
+			sh "docker rmi ${env.IMAGE_NAME} ${env.IMAGE_NAME_LATEST}"
             post {
                 always {
                     sh '''
