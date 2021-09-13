@@ -43,9 +43,9 @@ pipeline {
                 sh '''
                     cd simple-example
 					docker image build -t simple-example:v001 .
-                    docker login -u admin -p admin http://localhost:5000
-                    docker tag simple-example:v001 http://localhost:5000/simple-example:v001
-                    docker push http://localhost:5000/simple-example:v001
+                    docker login -u admin -p admin abs.std.docker.registery
+                    docker tag simple-example:v001 abs.std.docker.registery/simple-example:v001
+                    docker push abs.std.docker.registery/simple-example:v001
                 '''
             }
             post {
