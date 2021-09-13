@@ -45,7 +45,7 @@ pipeline {
 				  
 				  dir("${APP_DIR}"){
 				  
-					  def dockerImage = docker.build("tools90/simple-example:v001", "-f ${env.DOCKERFILE_NAME} .")
+					  def dockerImage = docker.build("tools90/simple-example:v001", "-f Dockerfile .")
 					  docker.withRegistry(registry.hub.docker.com, 'docker_registry_dh') {
 						dockerImage.push()
 						dockerImage.push("latest")
