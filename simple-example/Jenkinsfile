@@ -43,7 +43,7 @@ pipeline {
                 sh '''
                     cd simple-example
 					docker image build -t simple-example:v001 .
-                    docker login --username admin --password-stdin admin http://192.168.1.3:5000
+                    docker login -u admin -p admin http://localhost:5000
                     docker tag simple-example:v001 http://192.168.1.3:5000/simple-example:v001
                     docker push http://192.168.1.3:5000/simple-example:v001
                 '''
