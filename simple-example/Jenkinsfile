@@ -60,7 +60,7 @@ pipeline {
 
 		stage('Deploy to K8s') {
 		  steps {
-			withKubeConfig([serverUrl: "https://127.0.0.1:32769"]) {
+			withKubeConfig([credentialsId: 'kubernetes-config']) {
 			  sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"'
 			  sh 'chmod u+x ./kubectl'
 			  sh './kubectl apply -f simple-example.yaml'
