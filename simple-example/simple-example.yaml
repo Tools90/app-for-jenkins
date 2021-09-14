@@ -1,0 +1,15 @@
+apiVersion : v1
+kind: Pod
+metadata:
+    name: simple-example
+    labels:
+        env : prod
+        app : main
+        tier : frontend
+        owner : OsipovViktor
+spec:
+    containers:
+        - name: container-one
+          image: tools90/simple-example:v001
+          ports:
+            - containerPort: 8080
