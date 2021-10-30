@@ -10,7 +10,7 @@ pipeline {
     IMAGE_NAME_LATEST = "${env.IMAGE_BASE}:latest"
     DOCKERFILE_NAME = "Dockerfile"
 	APP_DIR = 'simple-example'
-
+	DOCKERHUB_CREDENTIALS=credentials('docker_registry_dh')
   }
   
 	tools {
@@ -43,16 +43,9 @@ pipeline {
 				  sh '''cd ${APP_DIR}
 				  ls'''
 				  
-				  dir("${APP_DIR}"){
-				  
-					  def dockerImage = docker.build("tools90/simple-example:v001", "-f Dockerfile .")
-					  docker.withRegistry('', 'docker_registry_dh') {
-						dockerImage.push()
-						dockerImage.push("latest")
-					  }
-				  }
+				  sh 'docker build -t tools90/simple-example:v001 .'
+				  sh 'docker push tools90/simple-example:v001'
 				}
-				
 			}
 		}
 
