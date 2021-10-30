@@ -41,10 +41,11 @@ pipeline {
 
 				script {
 				  sh '''cd ${APP_DIR}
-				  ls'''
+				  ls
 				  
-				  sh 'docker build -t tools90/simple-example:v001 .'
-				  sh 'docker push tools90/simple-example:v001'
+				   'docker build -t tools90/simple-example:v001 .'
+				   'docker push tools90/simple-example:v001'
+					'''
 				}
 			}
 		}
