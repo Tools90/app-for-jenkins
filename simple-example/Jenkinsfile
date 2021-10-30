@@ -43,9 +43,9 @@ pipeline {
 				  sh '''cd ${APP_DIR}
 				  ls
 				  
-				   'docker build -t tools90/simple-example:v001 .'
-				   'docker push tools90/simple-example:v001'
-					'''
+				  docker build -t tools90/simple-example:v001 .
+				  docker push tools90/simple-example:v001
+				  '''
 				}
 			}
 		}
